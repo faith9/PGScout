@@ -57,6 +57,11 @@ def parse_args():
 
     parser.add_argument('-pgpsid', '--pgpool-system-id',
                         help='System ID for PGPool. Required if --pgpool-url given.')
+    
+    parser.add_argument('-encwf', '--enc-whitelist-file',
+                default='', help='File containing a list of '
+                'Pokemon IDs to encounter for'
+                ' IV/CP scanning. One line per ID.')
 
     accs = parser.add_mutually_exclusive_group(required=True)
     accs.add_argument('-pgpn', '--pgpool-num-accounts', type=int, default=0,
@@ -66,6 +71,13 @@ def parse_args():
                       help='Load accounts from CSV file containing "auth_service,username,passwd" lines.')
 
     args = parser.parse_args()
+    
+    # Prepare the encounter whitelist.
+    args.enc_whitelist = []
+    # encounter whitelist.
+    if args.enc_whitelist_file:
+        with open(args.enc_whitelist_file) as f:
+            args.enc_whitelist = frozenset([int(l.strip()) for l in f])
 
 
 def init_resoures_from_file(resource_file):
