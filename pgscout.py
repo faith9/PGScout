@@ -60,7 +60,7 @@ def get_iv():
     if len(enc_whitelist)>0:
         if int(pokemon_id) not in enc_whitelist:
             log.info(
-                u"Skipping encounter for {} ID {} because not in whitelist {}".format(pokemon_name.encode('utf-8'),pokemon_id,enc_whitelist))
+                u"Skipping encounter for {} (id {}) because not in whitelist".format(pokemon_name.encode('utf-8'),pokemon_id))
             return jsonify({
                 'success': False,
                 'error': 'I have a whitelist. {} not in it'.format(pokemon_name)
