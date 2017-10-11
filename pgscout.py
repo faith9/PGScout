@@ -55,7 +55,17 @@ def get_iv():
         log.info(
             u"Returning cached result: {:.1f}% level {} {} with {} CP".format(result['iv_percent'], result['level'], pokemon_name, result['cp']))
         return jsonify(result)
-
+    
+    enc_whitelist = cfg_get('enc_whitelist')    
+    if len(enc_whitelist)>0:
+        if int(pokemon_id) not in enc_whitelist:
+            log.info(
+                u"Skipping encounter for {} ID {} because not in whitelist {}".format(pokemon_name.encode('utf-8'),pokemon_id,enc_whitelist))
+            return jsonify({
+                'success': False,
+                'error': 'I have a whitelist. {} not in it'.format(pokemon_name)
+            })
+    
     # Create a ScoutJob
     job = ScoutJob(pokemon_id, encounter_id, spawn_point_id, lat, lng)
 
