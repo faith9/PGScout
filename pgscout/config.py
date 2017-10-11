@@ -77,7 +77,7 @@ def parse_args():
     # encounter whitelist.
     if args.enc_whitelist_file:
         with open(args.enc_whitelist_file) as f:
-            args.enc_whitelist = frozenset([int(l.strip()) for l in f])
+            args.enc_whitelist = frozenset([int(l.split('#')[0].strip()) for l in f])
 
 
 def init_resoures_from_file(resource_file):
